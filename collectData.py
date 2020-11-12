@@ -1,8 +1,9 @@
 #Load Package
 import pandas as pd 
 import numpy as np 
-import twitterscraper 
+from twitterscraper import query_tweets
 
-
-
-
+list_of_tweets = query_tweets("Harun Masiku", 10)
+#print the retrieved tweets to the screen
+for tweet in query_tweets("Harun Masiku", 10):
+    print(tweet)
