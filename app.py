@@ -8,29 +8,40 @@ import plotly.graph_objs as go
 
 app = dash.Dash()
 
-app.css.append_css({"external_url": "https://codepen.io/chriddyp/pen/bWLwgP"})
+app.css.append_css({'external_url': 'https://codepen.io/amyoshino/pen/jzXypZ.css'})  
+
+
 df = pd.read_csv('IPM.csv', delimiter=';')
 
 indikator = df['Tahun'].unique()
 indikator2 = df['Provinsi'].unique()
-
-app.layout = html.Div(children=[
-        html.H1(children="Wadaw, Garph"),
-        html.Div(children="Latihan Membuat Dasboard Dengan Python & Dash Plotly "),
+app.layout = html.Div([
+        html.H1(children='Dashboard'),
+    dcc.Tabs(id="tabs", children=[
+        dcc.Tab(label='Tab Satu', children=[
+            html.Div([
             dcc.Dropdown(
                     id='my-dropdown',
                     options=[{'label': i, 'value': i} for i in indikator], value="Tahun"
                     ),
-            dcc.Graph(id='my-grafik'),
-            html.H1(children='Chart 2'),
-            dcc.Dropdown(
+            dcc.Graph(id='my-grafik')
+            ])
+        ]),
+        dcc.Tab(label='Tab Dua', children=[
+                 dcc.Dropdown(
                     id='dropdown2',
                     options=[{'label': i, 'value': i} for i in indikator2], value="Provinsi"
                     ),
             html.Div([
                     dcc.Graph(id='grafik2')
                     ])
-        ])        
+        ]),
+        dcc.Tab(label='Tab Tiga', children=[
+                 html.H3('Belum Ada konten')
+        ]),
+])
+],className='ten columns offset-by-one') 
+
 @app.callback(Output('my-grafik','figure'), [Input('my-dropdown', 'value')])
 def updateGrafik(pilih):
     dff= df[df['Tahun']==pilih]
@@ -47,7 +58,7 @@ def updateGrafik(pilih):
                                       size=20
                                       )),
                        'yaxis': dict(
-                              title='IPM',
+                              title='',
                               titlefont=dict(
                                       family='Helvetica, monospace',
                                       size=18))
@@ -57,11 +68,14 @@ def updateGrafik(pilih):
 def upgarfik2(prov):
     dfg = df[df['Provinsi']==prov]
     return{
-            'data':[go.Scatter(
+            'data':[go.Bar(
                     x=dfg['Tahun'],
-                    y=dfg['IPM'])
+                    y=dfg['IPM']),
+                    go.Bar(
+                    x=dfg['Tahun'],
+                    y=dfg['Harapan Hidup'])
         ],
-            'layout':{'title': 'Indeks Pembangunan Manusia',
+            'layout':{'title': 'Indeks Pembangunan Manusia & Harapan Hidup',
                       'xaxis': dict(
                               title='Tahun',
                               titlefont=dict(
@@ -69,11 +83,13 @@ def upgarfik2(prov):
                                       size=20
                                       )),
                        'yaxis': dict(
-                              title='IPM',
+                              title='',
                               titlefont=dict(
                                       family='Helvetica, monospace',
                                       size=18))
                       }
             }
+        
+
 if __name__ == '__main__':
     app.run_server(debug=True)  
