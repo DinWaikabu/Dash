@@ -1,2 +1,2 @@
 # Dash
-Visualisasi data menggunakan python dengan dash plotly. 
+Project scraping data twiter, melakukan analsis sentiment dan visualisasi
