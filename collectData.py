@@ -1,9 +1,13 @@
 #Load Package
 import pandas as pd 
 import numpy as np 
+import psycopg2 as psy
 from twitterscraper import query_tweets
+#collect data from twitter
 
-list_of_tweets = query_tweets("Jokowi", 10)
-#print the retrieved tweets to the screen
-for tweet in query_tweets("Jokowi", 10):
-    print(tweet)
+tweets = query_tweets("Anis Baswedan", 10)
+
+for tweet in tweets:
+    print(tweets)
+
+#load data database
