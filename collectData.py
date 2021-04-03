@@ -1,13 +1,14 @@
-#Load Package
-import pandas as pd 
-import numpy as np 
-import psycopg2 as psy
 from twitterscraper import query_tweets
-#collect data from twitter
 
-tweets = query_tweets("Anis Baswedan", 10)
+if __name__ == '__main__':
+    list_of_tweets = query_tweets("Trump OR Clinton", 10)
 
-for tweet in tweets:
-    print(tweets)
+    #print the retrieved tweets to the screen:
+    for tweet in query_tweets("Trump OR Clinton", 10):
+        print(tweet)
 
-#load data database
+    #Or save the retrieved tweets to file:
+    file = open("output.txt","w")
+    for tweet in query_tweets("Trump OR Clinton", 10):
+        file.write(str(tweet.text.encode('utf-8')))
+    file.close()
